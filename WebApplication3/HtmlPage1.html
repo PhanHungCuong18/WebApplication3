@@ -17,19 +17,19 @@
 
         <p id="sach" />
     </div>
-    <!--<div>
-        <h2>Add sách</h2>
+    <div>
+        <h2>Thêm sách</h2>
         <p>Title: <input type="text" id="Title" /></p>
         <p>Content: <input type="text" id="Content" /></p>
         <p>Author: <input type="text" id="Author" /></p>
         <p>Price: <input type="text" id="Price" /></p>
-        <button type="submit" id="add-order">Add!</button>
-        <button type="submit" id="edit-order">Edit</button>
-    </div>-->
+        <button type="submit" id="add-order">Thêm </button>
+ 
+    </div>
 
     <script src="https://code.jquery.com/jquery-2.0.3.js" integrity="sha256-lCf+LfUffUxr81+W0ZFpcU0LQyuZ3Bj0F2DQNCxTgSI=" crossorigin="anonymous"></script>
     <script>
-        let indexEdit = -1;
+     
        
         var uri = 'api/sach';
         function getAll() {
@@ -39,7 +39,7 @@
                     .done(function (data) {
                         $.each(data, function (key, item) {
                             let ele = $('<li>', { text: formatItem(item) })
-                            //Nut xoa
+      
                             let btnxoa = $('<span>', { text: "| Delete" })
                             btnxoa.on('click', function () {
                                 DeleteBook(item.Id)
@@ -48,18 +48,6 @@
                             btnxoa.css("color", "red")
                             btnxoa.css("margin-left", "10px")
                             btnxoa.appendTo(ele)
-
-                            //Nut sua
-                            let btnSua = $('<span>', { text: "| Edit" })
-                            btnSua.on('click', function () {
-                                setval(item)
-                                indexEdit = item.Id
-                            })
-                            btnSua.css("cursor", "pointer")
-                            btnSua.css("color", "green")
-                            btnSua.css("margin-left", "10px")
-                            btnSua.appendTo(ele)
-
                             ele.appendTo($('#saches'));
                         });
                     });
