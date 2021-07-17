@@ -17,7 +17,7 @@
 
         <p id="sach" />
     </div>
-    <div>
+    <!--<div>
         <h2>Add sách</h2>
         <p>Title: <input type="text" id="Title" /></p>
         <p>Content: <input type="text" id="Content" /></p>
@@ -25,7 +25,7 @@
         <p>Price: <input type="text" id="Price" /></p>
         <button type="submit" id="add-order">Add!</button>
         <button type="submit" id="edit-order">Edit</button>
-    </div>
+    </div>-->
 
     <script src="https://code.jquery.com/jquery-2.0.3.js" integrity="sha256-lCf+LfUffUxr81+W0ZFpcU0LQyuZ3Bj0F2DQNCxTgSI=" crossorigin="anonymous"></script>
     <script>
@@ -42,7 +42,7 @@
                             //Nut xoa
                             let btnxoa = $('<span>', { text: "| Delete" })
                             btnxoa.on('click', function () {
-                                DeleteBook(item.id)
+                                DeleteBook(item.Id)
                             })
                             btnxoa.css("cursor", "pointer")
                             btnxoa.css("color", "red")
@@ -53,7 +53,7 @@
                             let btnSua = $('<span>', { text: "| Edit" })
                             btnSua.on('click', function () {
                                 setval(item)
-                                indexEdit = item.id
+                                indexEdit = item.Id
                             })
                             btnSua.css("cursor", "pointer")
                             btnSua.css("color", "green")
@@ -68,6 +68,16 @@
         getAll();
         function formatItem(item) {
             return item.Title + ': $' + item.Price;
+        }
+        function DeleteBook(Id) {
+            console.log(Id)
+            $.ajax({
+                url: uri + "/" + Id,
+                type: 'DELETE',
+                success: function () {
+                    getAll();
+                }
+            })
         }
         function find() {
             var id = $('#prodId').val();
