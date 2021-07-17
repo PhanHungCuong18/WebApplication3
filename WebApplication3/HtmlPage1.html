@@ -1,7 +1,8 @@
-﻿<!DOCTYPE html>
+﻿﻿
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    
+
     <title>Quản lý sách</title>
 </head>
 <body>
@@ -13,20 +14,58 @@
         <h2>Tìm kiếm bằng mã sách</h2>
         <input type="text" id="prodId" size="5" />
         <input type="button" value="Search" onclick="find();" />
-       
+
         <p id="sach" />
     </div>
+    <div>
+        <h2>Add sách</h2>
+        <p>Title: <input type="text" id="Title" /></p>
+        <p>Content: <input type="text" id="Content" /></p>
+        <p>Author: <input type="text" id="Author" /></p>
+        <p>Price: <input type="text" id="Price" /></p>
+        <button type="submit" id="add-order">Add!</button>
+        <button type="submit" id="edit-order">Edit</button>
+    </div>
+
     <script src="https://code.jquery.com/jquery-2.0.3.js" integrity="sha256-lCf+LfUffUxr81+W0ZFpcU0LQyuZ3Bj0F2DQNCxTgSI=" crossorigin="anonymous"></script>
     <script>
+        let indexEdit = -1;
+       
         var uri = 'api/sach';
-        $(document).ready(function () {
-            $.getJSON(uri)
-                .done(function (data) {
-                    $.each(data, function (key, item) {
-                        $('<li>', { text: formatItem(item) }).appendTo($('#saches'));
+        function getAll() {
+            $('#saches').text("");
+            $(document).ready(function () {
+                $.getJSON(uri)
+                    .done(function (data) {
+                        $.each(data, function (key, item) {
+                            let ele = $('<li>', { text: formatItem(item) })
+                            //Nut xoa
+                            let btnxoa = $('<span>', { text: "| Delete" })
+                            btnxoa.on('click', function () {
+                                DeleteBook(item.id)
+                            })
+                            btnxoa.css("cursor", "pointer")
+                            btnxoa.css("color", "red")
+                            btnxoa.css("margin-left", "10px")
+                            btnxoa.appendTo(ele)
+
+                            //Nut sua
+                            let btnSua = $('<span>', { text: "| Edit" })
+                            btnSua.on('click', function () {
+                                setval(item)
+                                indexEdit = item.id
+                            })
+                            btnSua.css("cursor", "pointer")
+                            btnSua.css("color", "green")
+                            btnSua.css("margin-left", "10px")
+                            btnSua.appendTo(ele)
+
+                            ele.appendTo($('#saches'));
+                        });
                     });
-                });
-        });
+            });
+        }
+        getAll();
         function formatItem(item) {
             return item.Title + ': $' + item.Price;
         }
@@ -40,7 +79,6 @@
                     $('#sach').text('Error: ' + err);
                 });
         }
-        
     </script>
 </body>
 </html>
